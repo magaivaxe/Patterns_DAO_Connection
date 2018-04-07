@@ -5,27 +5,38 @@
  */
 package datas;
 
+import java.sql.Date;
+
 /**
  *
  * @author mpgsa
  */
 public class RentFilm
 {
-    private int id_rent;
-    private String id_client, id_film, rent_date, dev_date;
+    private int id_rent = 0;
+    private Date rent_date, dev_date;
     
+    private Film film;
+    private Clients clients;
     //Constructors =====================================================
 
     public RentFilm()
     {
     }
-
-    public RentFilm(int id_rent, String id_client,
-                    String id_film, String rent_date, String dev_date)
+    //Constructor to insert
+    public RentFilm(Clients clients, Film film, Date rent_date, Date dev_date)
     {
-        this.id_rent = id_rent;
-        this.id_client = id_client;
-        this.id_film = id_film;
+        this.rent_date = rent_date;
+        this.dev_date = dev_date;
+        this.film = film;
+        this.clients = clients;
+    }
+    //Constructor to get values
+    public RentFilm(int id_rent, Clients clients,
+                    Film film, Date rent_date, Date dev_date)
+    {
+        this.clients = clients;
+        this.film = film;
         this.rent_date = rent_date;
         this.dev_date = dev_date;
     }
@@ -42,42 +53,42 @@ public class RentFilm
         this.id_rent = id_rent;
     }
 
-    public String getId_client()
+    public Clients getId_client()
     {
-        return id_client;
+        return clients;
     }
 
-    public void setId_client(String id_client)
+    public void setId_client(Clients clients)
     {
-        this.id_client = id_client;
+        this.clients = clients;
     }
 
-    public String getId_film()
+    public Film getId_film()
     {
-        return id_film;
+        return film;
     }
 
-    public void setId_film(String id_film)
+    public void setId_film(Film film)
     {
-        this.id_film = id_film;
+        this.film = film;
     }
 
-    public String getRent_date()
+    public Date getRent_date()
     {
         return rent_date;
     }
 
-    public void setRent_date(String rent_date)
+    public void setRent_date(Date rent_date)
     {
         this.rent_date = rent_date;
     }
 
-    public String getDev_date()
+    public Date getDev_date()
     {
         return dev_date;
     }
 
-    public void setDev_date(String dev_date)
+    public void setDev_date(Date dev_date)
     {
         this.dev_date = dev_date;
     }
@@ -89,8 +100,8 @@ public class RentFilm
     {
         return "RentFilm{" 
                 + "id_rent=" + id_rent 
-                + ", id_client=" + id_client 
-                + ", id_film=" + id_film
+                + ", id_client=" + clients 
+                + ", id_film=" + clients
                 + ", rent_date=" + rent_date 
                 + ", dev_date=" + dev_date + '}';
     }

@@ -4,6 +4,7 @@ package datas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class RentFilmDAO extends DAO<RentFilm>
@@ -25,10 +26,10 @@ public class RentFilmDAO extends DAO<RentFilm>
             if(result.first())
             {
                 r = new RentFilm(id,
-                                 result.getString("id_client"),
-                                 result.getString("id_film"),
-                                 result.getString("rent_date"),
-                                 result.getString("dev_date"));
+                                 new ClientsDAO().find(result.getInt("id_client")),
+                                 new FilmDAO().find(result.getInt("id_film")),
+                                 result.getDate("rent_date"),
+                                 result.getDate("dev_date"));
             }
         } catch (SQLException e)
         {
@@ -42,37 +43,31 @@ public class RentFilmDAO extends DAO<RentFilm>
     {
         try
         {
-            ResultSet result = this.connect
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_UPDATABLE
-                    ).executeQuery(
-                            "select nextval('id_rent') as id"
-                    );
-            if (result.first())
-            {
-                int id = result.getInt("id_rent");
-                PreparedStatement prepare =
+            PreparedStatement prepare =
                     this.connect
                         .prepareStatement(
                             "insert into "
-                            + "films (id_rent, id_client,"
-                                    + " id_film, rent_date, dev_date) "
-                                + "values (?, ?, ?, ?, ?)"
-                                         );
-                prepare.setInt(1, id);
-                prepare.setString(2, obj.getId_client());
-                prepare.setString(3, obj.getId_film());
-                prepare.setString(4, obj.getRent_date());
-                prepare.setString(5, obj.getDev_date());
+                            + "rentfilm (id_client,"
+                            + " id_film, rent_date, dev_date) "
+                            + "values (?, ?, ?, ?)"
+                            , Statement.RETURN_GENERATED_KEYS);
+                
+                prepare.setInt(1, obj.getId_client().getId_client());
+                prepare.setInt(2, obj.getId_film().getId_film());
+                prepare.setDate(3, obj.getRent_date());
+                prepare.setDate(4, obj.getDev_date());
                 
                 prepare.executeUpdate();
-                obj = this.find(id);
-            }
+                ResultSet rs = prepare.getGeneratedKeys();
+                if (rs.next()) 
+                {
+                    obj.setId_rent(rs.getInt(1));
+                }
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
+        
         return  obj;
     }
 

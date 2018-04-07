@@ -16,10 +16,11 @@ public class FilmDAO extends DAO<Film>
         Film f = new Film();
         try
         {
-            ResultSet result = this.connect.createStatement(
+            ResultSet result = this.connect
+                        .createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                                 ResultSet.CONCUR_UPDATABLE
-            ).executeQuery(
+                        ).executeQuery(
                                 "select * from films where id_film = " + id
                         );
             
@@ -48,8 +49,8 @@ public class FilmDAO extends DAO<Film>
                         .prepareStatement(
                             "insert into "
                             + "films (nom_film,"
-                                    + " year_film, desc_film) "
-                                + "values (?, ?, ?)"
+                            + " year_film, desc_film) "
+                            + "values (?, ?, ?)"
                                          , Statement.RETURN_GENERATED_KEYS);
                 prepare.setString(1, obj.getNom_film());
                 prepare.setString(2, obj.getYear_film());

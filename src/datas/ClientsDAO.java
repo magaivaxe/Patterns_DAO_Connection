@@ -8,6 +8,7 @@ package datas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -48,36 +49,31 @@ public class ClientsDAO extends DAO<Clients>
     {
         try
         {
-            ResultSet result = this.connect
-                    .createStatement(
-                            ResultSet.TYPE_SCROLL_INSENSITIVE,
-                            ResultSet.CONCUR_UPDATABLE
-                    ).executeQuery(
-                            "select nextval('id_client') as id"
-                    );
-            if (result.first())
-            {
-                int id = result.getInt("id_client");
-                PreparedStatement prepare =
+            PreparedStatement prepare =
                     this.connect
                         .prepareStatement(
                             "insert into "
-                            + "clients (id_client, nom_client,"
+                            + "clients (nom_client,"
                                     + " cell_client, email_client) "
-                                + "values (?, ?, ?, ?)"
-                                         );
-                prepare.setInt(1, id);
-                prepare.setString(2, obj.getNom_client());
-                prepare.setString(3, obj.getCell_client());
-                prepare.setString(4, obj.getEmail_client());
+                                + "values (?, ?, ?)"
+                                         ,Statement.RETURN_GENERATED_KEYS);
+                prepare.setString(1, obj.getNom_client());
+                prepare.setString(2, obj.getCell_client());
+                prepare.setString(3, obj.getEmail_client());
                 
                 prepare.executeUpdate();
-                obj = this.find(id);
-            }
+                ResultSet rs = prepare.getGeneratedKeys();
+                
+                if (rs.next())
+                {
+                    obj.setId_client(rs.getInt(1));
+                }
+            
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
+        
         return  obj;
     }
 
