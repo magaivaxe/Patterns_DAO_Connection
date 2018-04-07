@@ -1,6 +1,7 @@
 
 package datas;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,11 +52,12 @@ public class RentFilmDAO extends DAO<RentFilm>
                             + " id_film, rent_date, dev_date) "
                             + "values (?, ?, ?, ?)"
                             , Statement.RETURN_GENERATED_KEYS);
-                
+            
                 prepare.setInt(1, obj.getId_client().getId_client());
                 prepare.setInt(2, obj.getId_film().getId_film());
-                prepare.setDate(3, obj.getRent_date());
-                prepare.setDate(4, obj.getDev_date());
+                //Convert util.date to sql.date
+                prepare.setDate(3, new Date(obj.getRent_date().getTime()));
+                prepare.setDate(4, new Date(obj.getDev_date().getTime()));
                 
                 prepare.executeUpdate();
                 ResultSet rs = prepare.getGeneratedKeys();
@@ -112,5 +114,7 @@ public class RentFilmDAO extends DAO<RentFilm>
             e.printStackTrace();
         }
     }
+
+   
     
 }

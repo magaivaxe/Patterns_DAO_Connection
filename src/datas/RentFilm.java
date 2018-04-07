@@ -5,7 +5,7 @@
  */
 package datas;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -24,7 +24,9 @@ public class RentFilm
     {
     }
     //Constructor to insert
-    public RentFilm(Clients clients, Film film, Date rent_date, Date dev_date)
+    public RentFilm(
+            Clients clients,
+            Film film, Date rent_date, Date dev_date)
     {
         this.rent_date = rent_date;
         this.dev_date = dev_date;

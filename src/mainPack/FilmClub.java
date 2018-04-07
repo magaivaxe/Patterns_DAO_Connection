@@ -1,8 +1,7 @@
 
 package mainPack;
 import datas.*;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 
 
 public class FilmClub
@@ -19,25 +18,24 @@ public class FilmClub
         
         filmDao.create(film);
         
-        listFilm(filmDao);*/
+        listFilm(filmDao);
+        */
         int id_client = 1;
         int id_film = 3;
-        long rent_days = 2;
+        int rent_days = 2;
         Clients clients = new ClientsDAO().find(id_client);
         Film film = new FilmDAO().find(id_film);
         
-        LocalDate localDate_rent = LocalDate.now();
-        LocalDate localDate_dev = LocalDate.now().plusDays(rent_days);
+        Dates dates = new Dates(rent_days);
         
-        Date rent_date = Date.valueOf(localDate_rent); 
-        Date dev_date = Date.valueOf(localDate_dev);
+        Date rent_date = dates.getRentDate();
+        Date dev_date = dates.getDevDate();
         
         RentFilm rentFilm = new RentFilm(
                 clients,
                 film,
-                rent_date, 
+                rent_date,
                 dev_date);
-        
         
         DAO<RentFilm> rentDao = new RentFilmDAO();
 
@@ -46,12 +44,13 @@ public class FilmClub
         listFilm(rentDao);
         
         
+        
         //listFilm(rentDao); 
     }
     
     public static void listFilm(DAO obj)
     {
-        for(int i = 1; i <= 7; i++)
+        for(int i = 1; i <= 15; i++)
         {
             System.out.println(obj.find(i));
         }
