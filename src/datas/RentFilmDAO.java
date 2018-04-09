@@ -84,7 +84,7 @@ public class RentFilmDAO extends DAO<RentFilm>
                     ResultSet.CONCUR_UPDATABLE
                 ).executeUpdate(
                         "update rentfilm set dev_date = ' " 
-                            + obj.getDev_date() + "'" 
+                            + new Date(obj.getDev_date().getTime()) + "'" 
                             + " where id_film = " + obj.getId_rent()
                 );
             obj = this.find(obj.getId_rent());

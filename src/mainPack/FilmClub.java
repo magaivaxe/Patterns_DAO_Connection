@@ -10,16 +10,47 @@ public class FilmClub
     
     public static void main(String[] args)
     {
-        //DAO<Film> filmDao = new FilmDAO();
+        testUpdate();
         
-        /*listFilm(filmDao);
+        
+    }
+    
+    public static void testUpdate()
+    {
+        int id_rentFilm = 8;
+        int newDevDate = 6;
+        
+        RentFilm rfd = new RentFilmDAO().find(id_rentFilm);
+        
+        Dates newdates = new Dates(newDevDate);
+        
+        rfd.setDev_date(newdates.getDevDate());
+        
+        RentFilmDAO rfdao = new RentFilmDAO();
+        
+        rfdao.upDate(rfd);
+        
+        DAO<RentFilm> rentDao = new RentFilmDAO();
+        
+        listFilm(rentDao); 
+        
+    }
+    
+    public static void testFilm()
+    {
+        DAO<Film> filmDao = new FilmDAO();
+        
+        listFilm(filmDao);
         
         Film film = new  Film(0,"lalalalala", "1998-08-25", "It's good");
         
         filmDao.create(film);
         
         listFilm(filmDao);
-        */
+    }
+    
+    public static void testRentFilm()
+    {
         int id_client = 1;
         int id_film = 3;
         int rent_days = 2;
@@ -42,10 +73,6 @@ public class FilmClub
         rentDao.create(rentFilm);
         
         listFilm(rentDao);
-        
-        
-        
-        //listFilm(rentDao); 
     }
     
     public static void listFilm(DAO obj)
